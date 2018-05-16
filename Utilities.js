@@ -46,3 +46,51 @@ function getChar(nameOrId){
             return null;
     }*/
 }
+
+on("chat:message", function(msg){
+    if(msg.type === "api" && msg.content.match(/^!distance/)){
+        log("Distance / main / msg.content: " + msg.content);
+        
+        // Remove the command and return if there's nothing else
+        let rawInput = msg.content.replace("!distance ","");
+        if(rawInput.length <= 0){
+            sendMessage(getChar("Clippy"),msg.who,"Error Code: Black Emu");
+            return;
+        }
+        if(LOGLEVEL > 2) log("Distance / main / rawinput: " + rawInput);
+        
+        // Create string array with each space-separated parameter
+        let input = rawInput.split(" ");
+        if(LOGLEVEL > 2) log("Distance / main / input: " + input);
+        
+        let token1 = getObj('graphic', input[0].split("=")[1]);
+        let token2 = getObj('graphic', input[1].split("=")[1]);
+        let distance = distBetween(token1, token2);
+        
+        log("distance between them: " + distance + " tile(s)");
+        sendMessage(getChar("Clippy"),msg.who,"The distance between those characters is: " + distance + " tile(s).");
+    }
+    
+    if(msg.type === "api" && msg.content.match(/^!checkShot/)){
+        log("Distance / main / msg.content: " + msg.content);
+        
+        // Remove the command and return if there's nothing else
+        let rawInput = msg.content.replace("!checkShot ","");
+        if(rawInput.length <= 0){
+            sendMessage(getChar("Clippy"),msg.who,"Error Code: Black Emu");
+            return;
+        }
+        if(LOGLEVEL > 2) log("Distance / main / rawinput: " + rawInput);
+        
+        // Create string array with each space-separated parameter
+        let input = rawInput.split(" ");
+        if(LOGLEVEL > 2) log("Distance / main / input: " + input);
+        
+        let token1 = getObj('graphic', input[0].split("=")[1]);
+        let token2 = getObj('graphic', input[1].split("=")[1]);
+        let distance = distBetween(token1, token2);
+        
+        log("distance between them: " + distance + " tile(s)");
+        sendMessage(getChar("Clippy"),msg.who,"The distance between those characters is: " + distance + " tile(s).");
+    }
+});
