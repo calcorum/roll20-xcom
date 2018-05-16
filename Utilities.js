@@ -1,27 +1,26 @@
-function getAttribute(char, attrName, which="current"){
-    let rawVal = getAttrByName(char.get("id"), attrName, which);
-    if (isNaN(rawVal)) return rawVal;
-    else return parseInt(rawVal);
-}
-
-function sendMessage(from, to, msg){
-    let whisper = "";
-    if(to){
-        if(typeof to === 'string'){
-            whisper = "/w " + to.split(" ")[0];
-        }else{
-            whisper = "/w " + to.get("name").split(" ")[0];
-        }
-    }
-    sendChat("character|" + from.get("id"), whisper + " " + msg);
-}
-
 function capitalizeFirst(string){
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function distBetween(tokenA, tokenB){
+    let t1 = {
+        x: tokenA.get('left'),
+        y: tokenA.get('top')
+    };
+    if(LOGLEVEL > 2) log("Utilities / distBetween / t1.x: " + t1.x + " / t1.y: " + t1.y);
+    let t2 = {
+        x: tokenB.get('left'),
+        y: tokenB.get('top')
+    };
+    if(LOGLEVEL > 2) log("Utilities / distBetween / t2.x: " + t2.x + " / t2.y: " + t2.y);
+    
+    let distance = (Math.sqrt( Math.pow( (t1.x-t2.x),2)+Math.pow( (t1.y-t2.y),2))/70);
+    if(LOGLEVEL > 1) log("Utilities / distBetween / distance: " + distance);
+    
+    return Math.round(distance);
+}
+
 function getChar(nameOrId){
-    log("nameOrId: " + nameOrId);
     let character = findObjs({
         _type: "character",
         name: nameOrId,
